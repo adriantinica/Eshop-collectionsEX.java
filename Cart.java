@@ -1,8 +1,10 @@
-public class Cart extends ItemRepository {
+import java.util.InputMismatchException;
+
+public final class Cart extends ItemRepository {
     
     private Client owner;
     private Money totalCost;
-    private Item<Product> itemToRemove;
+   
 
     public Cart(Client owner) {
         //super() - auto generated
@@ -26,54 +28,99 @@ public class Cart extends ItemRepository {
         this.owner = owner;
     }
 
-    public void setItemToRemove(Item<Product> item) {
-        itemToRemove = item;
-    }
-
+   
 
     
     @Override
-    public void addItem(Item<Product> item) {
-        // TODO Auto-generated method stub
+    public void addItem(Item<Product> item){
         
         super.addItem(item);
-        totalCost.setAmount(totalCost.getAmount()+item.getValue().getPrice().getAmount()*item.getQuantity()
+        addItemCost(item);
+    }
+
+     //HW4: ADD removeItem(Item item)
+            //removes the indicated object
+            //update totalCost
+    
+
+    @Override
+    public void removeItem(Item<Product> item) {
+        
+        super.removeItem(item);
+        substractItemCost(item);
+    }
+
+    // A bit of optimization for .removeItem(Item item) && addItem(Item item)
+    
+    public int totalCostOfDistinctProduct(Item<Product> item){
+        return item.getValue().getPrice().getAmount()*item.getQuantity();
+    }
+
+    public void substractItemCost(Item<Product> item){
+        totalCost.setAmount(
+            totalCost.getAmount()-totalCostOfDistinctProduct(item)
         );
     }
 
-    public void removeItem() {
-        if (itemToRemove != null) {
-            super.removeItem(itemToRemove);
-            totalCost.setAmount(totalCost.getAmount() - (itemToRemove.getValue().getPrice().getAmount() * itemToRemove.getQuantity()));
-            itemToRemove = null; 
-        }
+    public void addItemCost(Item<Product> item){
+        totalCost.setAmount(
+            totalCost.getAmount()+totalCostOfDistinctProduct(item)
+        );
     }
 
-    //public void removeItem(Item<Product> item) {
-   //     for (int index = 0; index < items.size(); index++) {
-    //        if ((items.get(index)).equals(item)) {
-    //            Item<Product> removedItem = items.remove(index);
-    //            totalCost.setAmount(totalCost.getAmount() - (removedItem.getValue().getPrice().getAmount() * removedItem.getQuantity()));
-    //            break;
-    //        }
-    //    }
-    //    System.out.println("The item : "+ item +" was REMOVED !!!");
-    //}
+    
 
+    
+    
+
+   
 
     // HW3: draw the diagram of toString() delegation
     //    : draw the diagram of constructor() delegation
      //    : draw the diagram of addItem() delegation
 
-    //HW4: ADD removeItem(Item item)
-            //removes the indicated object
-            //update totalCost
-   
-
-    //HW5: ineaseItemQuantity(Item item, Integer amount);
+    //HW5: inceaseItemQuantity(Item item, Integer amount);
             // set protection 
-            // decreaseItemQuantity(Item item, Integer amount);
+
+    public void increaseItemQuantity(Item<Product> item, Integer amount){
+        if (amount >0) {
+            incrementFunctionProcess(item,amount);
+        }
+    }
+
+
+    //     decreaseItemQuantity(Item item, Integer amount);
             // set protection
+
+    public void decreaseItemQuantity(Item<Product> item, Integer amount)throws ValueOutOfRangeException, InputMismatchException{
+        if ((item.getQuantity()).intValue() <= amount || amount <= 0) {
+            throw new ValueOutOfRangeException("ERROR: try another amount or delete this item from cart !!! ");
+        }else {
+            decrementFunctionProcess(item,amount);
+        };
+    }
+
+    // A bit of optimization for increase, decrease methods!!!!!!!
+
+    public void decrementFunctionProcess(Item<Product> item, Integer amount){
+        item.setQuantity(item.getQuantity()-amount);
+        totalCost.setAmount(totalCost.getAmount()-item.getValue().getPrice().getAmount() *amount);
+    }
+    
+
+    public void incrementFunctionProcess(Item<Product> item, Integer amount){
+        item.setQuantity(item.getQuantity()+amount);
+        totalCost.setAmount(totalCost.getAmount()+item.getValue().getPrice().getAmount() *amount);
+    }
+
+    class ValueOutOfRangeException extends Exception{
+
+        public ValueOutOfRangeException (String message){
+            super(message);
+        }
+    }
+    
+
 
 
     
