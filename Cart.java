@@ -11,7 +11,7 @@ public final class Cart extends ItemRepository {
         //super() - auto generated
         this.owner = owner;
         this.stock = stock;
-        this.totalCost= new Money(000,Currency.EUR);
+        this.totalCost= new Money(0,Currency.EUR);
     }
 
 
@@ -35,11 +35,20 @@ public final class Cart extends ItemRepository {
     
     @Override
     public void addItem(Item<Product> item){
-        
+
+        // HW8/9: verify available quantity 
         super.addItem(item);
         addItemCost(item);
+        
         Item<Product> stockItem = stock.getItemById(item.getValue().getId());
-        stockItem.setQuantity(stockItem.getQuantity()- item.getQuantity());
+        if (item.getQuantity()< stockItem.getQuantity() && item.getQuantity() > 0) {
+            stockItem.setQuantity(stockItem.getQuantity() - item.getQuantity());
+        } else { 
+           
+            item.setQuantity(stockItem.getQuantity());
+            stockItem.setQuantity(0);
+            
+        }
     }
 
      //HW4: ADD removeItem(Item item)
@@ -50,11 +59,16 @@ public final class Cart extends ItemRepository {
     @Override
     public void removeItem(Item<Product> item) {
         
-        super.removeItem(item);
-        substractItemCost(item);
         Item<Product> stockItem = stock.getItemById(item.getValue().getId());
-        stockItem.setQuantity(stockItem.getQuantity()+ item.getQuantity());
+        //if (item.getQuantity()< stockItem.getQuantity() && item.getQuantity() > 0) {
+            stockItem.setQuantity(stockItem.getQuantity() + item.getQuantity());
+        //} 
+        substractItemCost(item);
+        super.removeItem(item);
     }
+
+
+
 
     // A bit of optimization for .removeItem(Item item) && addItem(Item item)
     
@@ -85,7 +99,7 @@ public final class Cart extends ItemRepository {
     //    : draw the diagram of constructor() delegation
      //    : draw the diagram of addItem() delegation
 
-    //HW5: inceaseItemQuantity(Item item, Integer amount);
+    //HW5: increaseItemQuantity(Item item, Integer amount);
             // set protection 
 
     public void increaseItemQuantity(Item<Product> item, Integer amount){
@@ -126,13 +140,6 @@ public final class Cart extends ItemRepository {
         }
     }
     
-
-
-
-    
-     
-    
-}
 
 
 
