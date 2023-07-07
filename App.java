@@ -45,12 +45,17 @@ public class App {
         System.out.println( );
 
         // Remove an item from the cart
+        
         Item<Product> itemToRemove = new Item<>(
             new Product(1002, "Apple 14 PRO", new Money(1600, Currency.EUR)),
             2
         );
+        cart.setItemToRemove(itemToRemove);
+        cart.removeItem();
+
+
         System.out.println( );
-        cart.removeItem(itemToRemove);
+        
 
         System.out.println(cart);
         
@@ -59,4 +64,5 @@ public class App {
 
         //System.out.println(cart.getItemById(1003));// print Item
     }
+}
 }
