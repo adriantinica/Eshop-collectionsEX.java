@@ -1,6 +1,8 @@
+import java.util.InputMismatchException;
+
 public class App {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InputMismatchException, Cart.ValueOutOfRangeException {
 
         Stock stock = new Stock();
 
@@ -31,38 +33,30 @@ public class App {
         Cart cart  =new Cart (new Client("John Doe","123456789"));
          
         System.out.println(cart);
-        cart.addItem(new Item<>(
-            new Product(1002,"Apple 14 PRO", new Money (1600, Currency.EUR)),
-            2
-        ));
-        cart.addItem(new Item<>(
-            new Product(1001,"Samsung XX11", new Money (1000, Currency.EUR)),
-            2
-        ));
 
-       System.out.println(cart);
+        Item<Product> item1 =new Item<>(  new Product(1001,"Samsung XX11", new Money (1000, Currency.EUR)),
+            2);
+        cart.addItem(item1);
+            
+        Item<Product> item2 = new Item<Product>(new Product(1002,"Apple 14 PRO", new Money (1600, Currency.EUR)),
+            2);
+        cart.addItem(item2);
+        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+       
+        //cart.removeItem(item1);
+         System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        System.out.println(cart);
 
-        System.out.println( );
-
-        // Remove an item from the cart
-        
-        Item<Product> itemToRemove = new Item<>(
-            new Product(1002, "Apple 14 PRO", new Money(1600, Currency.EUR)),
-            2
-        );
-        cart.setItemToRemove(itemToRemove);
-        cart.removeItem();
-
-
-        System.out.println( );
-        
+        cart.increaseItemQuantity(item2, 10);
+        System.out.println(cart);
+        cart.decreaseItemQuantity(item2, 13);
 
         System.out.println(cart);
-        
+
+
 
        
 
         //System.out.println(cart.getItemById(1003));// print Item
     }
-}
 }
