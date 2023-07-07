@@ -65,6 +65,16 @@ public abstract class ItemRepository {
         return items;
     }
 
+    public void removeItem(Item<Product> itemToRemove) {
+        for (int index = 0; index < items.size(); index++) {
+                    if ((items.get(index)).equals(itemToRemove)) {
+                        Item<Product> removedItem = items.remove(index);
+            //            totalCost.setAmount(totalCost.getAmount() - (removedItem.getValue().getPrice().getAmount() * removedItem.getQuantity()));
+                        break;
+                    }
+                }
+    }
+
    
     
     
