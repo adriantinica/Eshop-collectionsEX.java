@@ -4,11 +4,13 @@ public final class Cart extends ItemRepository {
     
     private Client owner;
     private Money totalCost;
+    private ItemRepository stock;
    
 
-    public Cart(Client owner) {
+    public Cart(Client owner, ItemRepository stock) {
         //super() - auto generated
         this.owner = owner;
+        this.stock = stock;
         this.totalCost= new Money(000,Currency.EUR);
     }
 
@@ -36,6 +38,8 @@ public final class Cart extends ItemRepository {
         
         super.addItem(item);
         addItemCost(item);
+        Item<Product> stockItem = stock.getItemById(item.getValue().getId());
+        stockItem.setQuantity(stockItem.getQuantity()- item.getQuantity());
     }
 
      //HW4: ADD removeItem(Item item)
@@ -48,6 +52,8 @@ public final class Cart extends ItemRepository {
         
         super.removeItem(item);
         substractItemCost(item);
+        Item<Product> stockItem = stock.getItemById(item.getValue().getId());
+        stockItem.setQuantity(stockItem.getQuantity()+ item.getQuantity());
     }
 
     // A bit of optimization for .removeItem(Item item) && addItem(Item item)
@@ -120,6 +126,13 @@ public final class Cart extends ItemRepository {
         }
     }
     
+
+
+
+    
+     
+    
+}
 
 
 
