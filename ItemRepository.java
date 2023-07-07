@@ -33,15 +33,11 @@ public abstract class ItemRepository {
 
         for (int i = 0; i < items.size(); i++) {
            
-            if((items.get(i).getValue().getId()).equals(id)){
+            if(items.get(i).getValue().getId().intValue() == id.intValue()){
                 item = items.get(i);
-                //System.out.println("The product with id "+id+" you searched for:");
+                
                 break;
-            }else if(!(items.get(i).getValue().getId()).equals(id)){
-                //System.err.println("You've entered wrong ID !!!");
-                break;
-            }
-            
+            }            
         }
         return item;
 
@@ -67,6 +63,14 @@ public abstract class ItemRepository {
 
     public void removeItem(Item<Product> item){
         items.remove(item);
-    }    
+    }
+
+    
+
+   
+    
+    
+
+    
     
 }
