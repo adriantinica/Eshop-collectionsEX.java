@@ -15,28 +15,42 @@ public class App {
         stock.addItem(
             new Item<>(product2,100));
         stock.addItem(
-            new Item<>(product3,13));
+            new Item<>(product3,100));
 
 
-        System.out.println(stock);
+        
 
 
         Cart cart  =new Cart (new Client("John Doe","123456789"),stock);
          
-        
+       
+        System.out.println(stock);
 
-        Item<Product> item1 =new Item<>(  new Product(1001,"Samsung XX11", new Money (1000, Currency.EUR)),
-            2);
+        Item<Product> item1 = new Item<>( product1,
+            120);
         cart.addItem(item1);
             
-        Item<Product> item2 = new Item<>(new Product(1002,"Apple 14 PRO", new Money (1600, Currency.EUR)),
-            2);
+        Item<Product> item2 = new Item<>(product2,
+            80);
         cart.addItem(item2);
+
+         Item<Product> item3 = new Item<>(product3,
+            100);
+        cart.addItem(item3);
+        
+        
+        System.out.println("Real Stock after cart fill: ");
+        System.out.println(stock);
+        System.out.println(cart);
+        cart.removeItem(item3);
+        System.out.println("Situation after removing item3");
+        System.out.println(stock);
+        System.out.println(cart);
+                
+
         
        
-        System.out.println(cart);
-
-
+        
 
        
 
