@@ -88,16 +88,6 @@ public final class Cart extends ItemRepository {
         );
     }
 
-    
-
-    
-    
-
-   
-
-    // HW3: draw the diagram of toString() delegation
-    //    : draw the diagram of constructor() delegation
-     //    : draw the diagram of addItem() delegation
 
     //HW5: increaseItemQuantity(Item item, Integer amount);
             // set protection 
