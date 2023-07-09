@@ -161,3 +161,37 @@ public final class Cart extends ItemRepository {
        
     
 }
+
+// HW3: draw the diagram of toString() delegation
+    //    : draw the diagram of constructor() delegation
+    //    : draw the diagram of addItem() delegation
+
+
+   // +------- class ItemRepository ----- +                       +------- class Money -------------+    
+   // |                                   |                       |                                 |
+   // |    class ItemRepository(){   >---------------+            |      public Money(){}           | 
+   // |                                   |          |        +-------<     this.amount......       |   
+   // |    .addItem(){        >-----------------+    |        |   |       }                         |
+   // |      }                            |     |    |        |   |                                 |
+   // |    .toString()      >-------------------)----)----+   |   |                                 |
+   // |      }                            |     |    |    |   |   |                                 |
+   // |                                   |     |    |    |   |   |                                 |
+   // +-----------------------------------+     |    |    |   |   +---------------------------------+
+   //                                           |    |    |   |
+   //                                           |    |    |   |
+   // +-class Cart extends ItemRepository-+     |    |    |   |   
+   // |                                   |     |    |    |   |   
+   // |  public Cart (){                  |     |    |    |   |   
+   // |      super() - auto generated  <--------)----+    |   |                                      
+   // |      this.totalCost= new Money... <-----)---------)---+                                     
+   // |     }                             |     |         |                                          
+   // |    .addItem(){                    |     |         |                                          
+   // |        super.addItem(item)    }  <------+         |                              
+   // |  }                                |               |                                         
+   // |    .toString(){                   |               |                                         
+   // |       + super.toString()}         <---------------+                                      
+   // +-----------------------------------+                       
+
+
+
+
