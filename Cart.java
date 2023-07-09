@@ -102,10 +102,20 @@ public final class Cart extends ItemRepository {
     //HW5: increaseItemQuantity(Item item, Integer amount);
             // set protection 
 
-    public void increaseItemQuantity(Item<Product> item, Integer amount){
-        if (amount >0) {
+    public void increaseItemQuantity(Item<Product> item, Integer amount)throws ValueOutOfRangeException, InputMismatchException{
+
+        Item<Product> stockItem = stock.getItemById(item.getValue().getId());
+        
+        if (amount >0 && amount  <= stockItem.getQuantity() ) {
             incrementFunctionProcess(item,amount);
-        }
+            stockItem.setQuantity(stockItem.getQuantity() - amount);
+           
+        } else  if(amount > stockItem.getQuantity()) {
+            item.setQuantity(item.getQuantity()+ stockItem.getQuantity());
+            stockItem.setQuantity(0) ;
+        } else { throw new ValueOutOfRangeException("ERROR: amount can't be negative");}
+        
+        
     }
 
 
@@ -113,11 +123,20 @@ public final class Cart extends ItemRepository {
             // set protection
 
     public void decreaseItemQuantity(Item<Product> item, Integer amount)throws ValueOutOfRangeException, InputMismatchException{
-        if ((item.getQuantity()).intValue() <= amount || amount <= 0) {
-            throw new ValueOutOfRangeException("ERROR: try another amount or delete this item from cart !!! ");
+        
+        Item<Product> stockItem = stock.getItemById(item.getValue().getId());
+        if ((item.getQuantity()).intValue() <= amount  ) {
+             throw new ValueOutOfRangeException("ERROR: try another amount or delete this item from cart !!! ");
+
+        }else if (amount <= 0) {
+            throw new ValueOutOfRangeException("ERROR: amount can't be negative");
+
         }else {
+
             decrementFunctionProcess(item,amount);
-        };
+            stockItem.setQuantity(stockItem.getQuantity() + amount);
+            
+        }
     }
 
     // A bit of optimization for increase, decrease methods!!!!!!!
@@ -139,11 +158,6 @@ public final class Cart extends ItemRepository {
             super(message);
         }
     }
-    
-
-
-
-    
-     
+       
     
 }
